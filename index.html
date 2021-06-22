@@ -25,11 +25,13 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button onclick="productCount(false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <button onclick="productCount(false)" class="btn btn-default"><i
+                                 class="fas fa-minus"></i></button>
                            <input id="iphoneInput" type="text" class="form-control text-center" value="1">
-                           <button onclick="productCount(true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="productCount(true)" class="btn btn-default"><i
+                                 class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$ <span id="iPhonePrice">1219</span></h5>
+                        <h5>$ <span id="iPhonePrice">1000</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -43,12 +45,14 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button onclick="productCountCase(false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <button onclick="productCountCase(false)" class="btn btn-default"><i
+                                 class="fas fa-minus"></i></button>
                            <input id="caseInput" type="text" class="form-control text-center" value="1">
-                           <button onclick="productCountCase(true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="productCountCase(true)" class="btn btn-default"><i
+                                 class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$ <span id="casePrice">59</span></h5>
+                        <h5>$ <span id="casePrice">50</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -64,9 +68,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
+                        <h5 id="total_price">$1050</h5>
                         <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$1050</h5>
                      </div>
                   </div>
                </div>
@@ -79,38 +83,50 @@
    </section>
 
    <script>
- 
-      function productCount(product){
-        const inputBtnIphn = document.getElementById("iphoneInput").value;
-        const newInputBtn = parseInt(inputBtnIphn);
-        let total = newInputBtn;
-        if(product == true){
-         total = newInputBtn + 1;
-        }
-        if(product == false && newInputBtn>1){
-         total = newInputBtn - 1;
-         
-        }
-        const result = document.getElementById("iphoneInput").value = total; 
-        document.getElementById("iPhonePrice").innerText = total * 1219;
-      }
-      function productCountCase(Case){
-         const inputBtnCase = document.getElementById("caseInput").value;
-         const newInputBtn = parseInt(inputBtnCase);
-        let total = newInputBtn;
-        if(Case == true){
-         total = newInputBtn + 1;
-        }
-        if(Case == false && newInputBtn>1){
-         total = newInputBtn - 1;
-        }
-        document.getElementById("caseInput").value = total;
-        document.getElementById("casePrice").innerText = total * 59;
-        
 
+      const PRICE_IPHONE = 1000;
+      const PRICE_CASE = 50;
+
+      function calc(isIncrement) {
+
+         const prevValue = parseInt(document.getElementById("iphoneInput").value);
+
+         if (isIncrement) {
+            return prevValue + 1;
+         } else if (prevValue > 1) {
+            return prevValue - 1;
+         }
+
+         return prevValue;
       }
 
-   
+      function getIphonePrice() {
+         return parseInt(document.getElementById("iphoneInput").value) * PRICE_IPHONE;
+      }
+
+      function getCasePrice() {
+         return parseInt(document.getElementById("caseInput").value) * PRICE_CASE;
+      }
+
+      function updateTotalPrice() {
+         document.getElementById("total_price").innerText = '$' + (getIphonePrice() + getCasePrice());
+         // document.getElementById("total_price").innerText = `\$${getIphonePrice() + getCasePrice()}`
+      }
+
+      function productCount(isIncrement) {
+         const total = calc(isIncrement);
+         document.getElementById("iphoneInput").value = total;
+         document.getElementById("iPhonePrice").innerText = total * PRICE_IPHONE;
+         updateTotalPrice();
+      }
+
+      function productCountCase(isIncrement) {
+         const total = calc(isIncrement);
+         document.getElementById("caseInput").value = total;
+         document.getElementById("casePrice").innerText = total * PRICE_CASE;
+         updateTotalPrice();
+      }
+
    </script>
 </body>
 
